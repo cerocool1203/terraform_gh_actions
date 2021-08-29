@@ -1,4 +1,4 @@
-name: Security Policy Review
+name: Terraform Security Scanner
 on:
   pull_request:
 
