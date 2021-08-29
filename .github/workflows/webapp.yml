@@ -4,13 +4,12 @@ on:
   push:
     branches:
     - main
-    paths:
-    - src
   pull_request:
 
 env:
   AZURE_WEBAPP_NAME: "ghcero.azurewebsites.net"
   NODE_VERSION: '12.x'                # set this to the node version to use
+  AZURE_WEBAPP_PACKAGE_PATH: ${{ github.workspace }}
 jobs:
   build:
     runs-on: windows-latest
