@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - main
+    paths:
+    - terraform
   pull_request:
 
 jobs:
@@ -15,6 +17,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: terraform
 
     steps:
     # Checkout the repository to the GitHub Actions runner
