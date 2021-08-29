@@ -8,6 +8,11 @@ on:
     - terraform
   pull_request:
 
+env:
+  AZURE_WEBAPP_NAME: 'ghcero'
+  NODE_VERSION: '12.x'                # set this to the node version to use
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+
 jobs:
   terraform:
     name: 'Terraform'
