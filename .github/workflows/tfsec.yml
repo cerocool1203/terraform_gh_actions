@@ -1,6 +1,10 @@
 name: Security Policy Review
 on:
   pull_request:
+    paths:
+    - 'terraform/**'
+    - '!src/**'
+
 jobs:
   tfsec:
     name: tfsec PR commenter

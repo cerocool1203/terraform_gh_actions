@@ -5,7 +5,7 @@ on:
     branches:
     - main
     paths:
-    - src
+    - 'src/**'
 
 env:
   AZURE_WEBAPP_NAME: 'ghcero'
