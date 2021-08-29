@@ -1,6 +1,7 @@
-name: Security Policy Review
+name: Terraform Security Scanner
 on:
   pull_request:
+
 jobs:
   tfsec:
     name: tfsec PR commenter

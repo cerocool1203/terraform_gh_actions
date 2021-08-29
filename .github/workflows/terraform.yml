@@ -1,11 +1,11 @@
-name: 'Terraform'
+name: 'IaC Terraform Cloud'
 
 on:
   push:
     branches:
     - main
     paths:
-    - terraform
+    - 'terraform/**'
   pull_request:
 
 env:
