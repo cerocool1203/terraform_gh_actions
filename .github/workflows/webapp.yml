@@ -1,0 +1,46 @@
+name: 'WebApp'
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - src
+
+env:
+  AZURE_WEBAPP_NAME: 'ghcero'
+  NODE_VERSION: '12.x'                # set this to the node version to use
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # checkout the repo
+      - name: 'Checkout GitHub Action' 
+        uses: actions/checkout@main
+    
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: 'npm install, build, and test'
+        run: |
+          npm install
+          npm run build
+                
+      # deploy web app using Azure credentials
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+      # Azure logout 
+      - name: logout
+        run: |
+          az logout
