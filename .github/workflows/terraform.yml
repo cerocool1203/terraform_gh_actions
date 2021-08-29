@@ -10,7 +10,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -38,6 +37,7 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
+      id: plan
       run: terraform plan
       continue-on-error: true
     
@@ -46,7 +46,7 @@ jobs:
       env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
