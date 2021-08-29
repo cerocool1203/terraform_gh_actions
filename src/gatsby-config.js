@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-  title: `AZDO and TFC`,
+  title: `GitHub Actions and TFC`,
   description: `Web App deployed using GitHub Actions and TFC.`,
   author: `@JohnAlfaro`,
   },

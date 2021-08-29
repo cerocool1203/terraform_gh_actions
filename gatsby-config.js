@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `AZDO and TFC`,
-    description: `CI/CD WebApp using AZDO and tFC`,
+    title: `GitHub Actions and TFC`,
+    description: `Web App deployed using GitHub Actions and TFC.`,
     author: `@gatsbyjs`,
   },
   plugins: [
@@ -21,8 +21,8 @@ module.exports = {
         name: `gatsby-starter-default`,
         short_name: `starter`,
         start_url: `/`,
-        background_color: `#844FBA`,
-        theme_color: `#844FBA`,
+        background_color: `#691ae0`,
+        theme_color: `#691ae0`,
         display: `minimal-ui`,
         icon: `src/images/icon.png`, // This path is relative to the root of the site.
       },
