@@ -60,8 +60,7 @@ jobs:
       with:
         directory: terraform/
         soft_fail: true
-        output_format: json
-        
+
     - uses: actions/github-script@v4.1.0
       if: github.event_name == 'pull_request'
       env:
@@ -72,39 +71,13 @@ jobs:
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outputs.stdout }}\`
-            #### Checkov 🤖\`${{ steps.checkov.outcome }}\`
+            #### Static Code Analisys 🤖\`${{ steps.checkov.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
             ${process.env.PLAN}
-            \`\`\`
-
-            </details>
-
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-           
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-
-    - uses: actions/github-script@v4.1.0
-      if: github.event_name == 'pull_request'
-      env:
-          Checkov: "Security\n${{ steps.checkov.stdout }}"
-      with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            #### Checkov 🤖\`${{ steps.checkov.outcome }}\`
-            
-            <details><summary>Show Policies</summary>
-
-            \`\`\`\n
-            ${process.env.Checkov}
             \`\`\`
 
             </details>
