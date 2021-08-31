@@ -20,7 +20,7 @@ jobs:
       - uses: actions/github-script@v4.1.0
         if: github.event_name == 'pull_request'
         env:
-            CHECKOV: "Security\n${{ steps.tfsec.outputs }}"
+            CHECKOV: "Security\n${{ steps.tfsec.outputs.stdout }}"
         with:
             github-token: ${{ secrets.GH_TOKEN }}
             script: |
