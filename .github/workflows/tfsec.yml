@@ -12,6 +12,33 @@ jobs:
         uses: actions/checkout@master
 
       - name: tfsec
+        id: tfsec
         uses: aquasecurity/tfsec-pr-commenter-action@main
         with:
           github_token: ${{ secrets.GH_TOKEN }}
+
+      - uses: actions/github-script@v4.1.0
+        if: github.event_name == 'pull_request'
+        env:
+            CHECKOV: "Security\n${{ steps.tfsec.outputs }}"
+        with:
+            github-token: ${{ secrets.GH_TOKEN }}
+            script: |
+              #### Checkov 🤖\`${{ steps.tfsec.outcome }}\`
+              
+              <details><summary>Show Policies</summary>
+
+              \`\`\`\n
+              ${process.env.CHECKOV}
+              \`\`\`
+
+              </details>
+
+              *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            
+              github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: output
+              })
