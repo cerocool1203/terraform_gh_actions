@@ -21,7 +21,7 @@ jobs:
     - uses: actions/github-script@v4.1.0
       if: github.event_name == 'pull_request'
       env:
-          Checkov: "Security\n${{ steps.checkov.stdout }}"
+          CHECKOV: "Security\n${{ steps.checkov.outputs.stdout }}"
       with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
@@ -30,7 +30,7 @@ jobs:
             <details><summary>Show Policies</summary>
 
             \`\`\`\n
-            ${process.env.Checkov}
+            ${process.env.CHECKOV}
             \`\`\`
 
             </details>
