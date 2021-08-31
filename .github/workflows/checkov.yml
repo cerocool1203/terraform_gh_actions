@@ -16,7 +16,6 @@ jobs:
       with:
         directory: terraform/
         soft_fail: true
-        output_format: github_failed_only
     
     - uses: actions/github-script@v4.1.0
       if: github.event_name == 'pull_request'
