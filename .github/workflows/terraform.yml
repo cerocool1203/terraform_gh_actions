@@ -94,7 +94,7 @@ jobs:
     - uses: actions/github-script@v4.1.0
       if: github.event_name == 'pull_request'
       env:
-          Checkov: "Security\n${{ steps.checkov.outputs.stdout }}"
+          Checkov: "Security\n${{ steps.checkov.stdout }}"
       with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
