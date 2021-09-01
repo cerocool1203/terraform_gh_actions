@@ -127,5 +127,6 @@ jobs:
 
       # Azure logout 
     - name: logout
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
           az logout

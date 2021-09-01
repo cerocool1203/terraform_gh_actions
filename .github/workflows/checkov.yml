@@ -1,44 +1,44 @@
-name: TF Static Code Analysis
-on:
-  pull_request:
+# name: TF Static Code Analysis
+# on:
+#   pull_request:
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@master
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout repo
+#       uses: actions/checkout@master
 
-    - name: Run Checkov action
-      id: checkov
-      uses: bridgecrewio/checkov-action@master
-      with:
-        directory: terraform/
-        soft_fail: true
+#     - name: Run Checkov action
+#       id: checkov
+#       uses: bridgecrewio/checkov-action@master
+#       with:
+#         directory: terraform/
+#         soft_fail: true
     
-    - uses: actions/github-script@v4.1.0
-      if: github.event_name == 'pull_request'
-      env:
-          CHECKOV: "Security\n${{ steps.checkov }}"
-      with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            #### Checkov 🤖\`${{ steps.checkov.outcome }}\`
+#     - uses: actions/github-script@v4.1.0
+#       if: github.event_name == 'pull_request'
+#       env:
+#           CHECKOV: "Security\n${{ steps.checkov }}"
+#       with:
+#           github-token: ${{ secrets.GH_TOKEN }}
+#           script: |
+#             #### Checkov 🤖\`${{ steps.checkov.outcome }}\`
             
-            <details><summary>Show Policies</summary>
+#             <details><summary>Show Policies</summary>
 
-            \`\`\`\n
-            ${process.env.CHECKOV}
-            \`\`\`
+#             \`\`\`\n
+#             ${process.env.CHECKOV}
+#             \`\`\`
 
-            </details>
+#             </details>
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+#             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
            
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+#             github.issues.createComment({
+#               issue_number: context.issue.number,
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               body: output
+#             })
