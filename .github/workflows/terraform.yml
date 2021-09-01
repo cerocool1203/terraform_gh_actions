@@ -53,7 +53,14 @@ jobs:
       if: github.event_name == 'pull_request'
       run: terraform plan -no-color
       continue-on-error: true
-    
+
+    - name: Run Checkov action
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: terraform/
+        soft_fail: true
+
     - uses: actions/github-script@v4.1.0
       if: github.event_name == 'pull_request'
       env:
@@ -63,8 +70,9 @@ jobs:
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outputs.stdout }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Static Security Analysis 🕵️‍♀️\`${{ steps.checkov.outcome }}\`
             
             <details><summary>Show Plan</summary>
 
@@ -92,3 +100,33 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve
+    
+    - uses: azure/login@v1
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+    - name: Setup Node ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+      
+    - name: 'npm install, build, and test'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+          npm install
+          npm run build
+                
+      # deploy web app using Azure credentials
+    - uses: azure/webapps-deploy@v2
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+      # Azure logout 
+    - name: logout
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+          az logout

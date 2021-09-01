@@ -1,17 +1,44 @@
-name: Terraform Security Scanner
-on:
-  pull_request:
+# name: Terraform Security Scanner
+# on:
+#   pull_request:
 
-jobs:
-  tfsec:
-    name: tfsec PR commenter
-    runs-on: ubuntu-latest
+# jobs:
+#   tfsec:
+#     name: tfsec PR commenter
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@master
+#     steps:
+#       - name: Clone repo
+#         uses: actions/checkout@master
 
-      - name: tfsec
-        uses: aquasecurity/tfsec-pr-commenter-action@main
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
+#       - name: tfsec
+#         id: tfsec
+#         uses: aquasecurity/tfsec-pr-commenter-action@main
+#         with:
+#           github_token: ${{ secrets.GH_TOKEN }}
+
+#       - uses: actions/github-script@v4.1.0
+#         if: github.event_name == 'pull_request'
+#         env:
+#             CHECKOV: "Security\n${{ steps.tfsec.outputs.stdout }}"
+#         with:
+#             github-token: ${{ secrets.GH_TOKEN }}
+#             script: |
+#               #### Checkov 🤖\`${{ steps.tfsec.outcome }}\`
+              
+#               <details><summary>Show Policies</summary>
+
+#               \`\`\`\n
+#               ${process.env.CHECKOV}
+#               \`\`\`
+
+#               </details>
+
+#               *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            
+#               github.issues.createComment({
+#                 issue_number: context.issue.number,
+#                 owner: context.repo.owner,
+#                 repo: context.repo.repo,
+#                 body: output
+#               })
