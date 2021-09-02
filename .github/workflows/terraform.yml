@@ -54,8 +54,10 @@ jobs:
       run: terraform plan -no-color
       continue-on-error: true
 
+    #TF Static Code Analysis
     - name: Run Checkov action
       id: checkov
+      if: github.event_name == 'pull_request'
       uses: bridgecrewio/checkov-action@master
       with:
         directory: terraform/
