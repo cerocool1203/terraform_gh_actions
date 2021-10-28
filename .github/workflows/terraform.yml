@@ -106,7 +106,9 @@ jobs:
     - uses: azure/login@v1
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        client-id: ${{ secrets.AZURE_CLIENTID }}
+        tenant-id: ${{ secrets.AZURE_TENANTID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
           
     - name: Setup Node ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
