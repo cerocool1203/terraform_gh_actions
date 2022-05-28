@@ -106,7 +106,7 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve
     
-    - uses: azure/login@2
+    - uses: azure/login@v1
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         client-id: ${{ secrets.AZURE_CLIENTID }}
