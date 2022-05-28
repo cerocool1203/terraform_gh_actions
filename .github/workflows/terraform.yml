@@ -6,6 +6,9 @@ on:
     - main
   pull_request:
 
+permissions:
+    id-token: write
+
 env:
   AZURE_WEBAPP_NAME: 'ghcero'
   NODE_VERSION: '12.x'                # set this to the node version to use
